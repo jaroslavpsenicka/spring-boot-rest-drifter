@@ -63,6 +63,13 @@ public class PersonEndpoint extends BaseEndpoint {
         return (person == null ? ResponseEntity.status(HttpStatus.NOT_FOUND) : ResponseEntity.ok()).body(person);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_" + PERSON_WRITE_PERMISSION + "') or @authorizationConfiguration.isDisabled()")
+    @RequestMapping(path = "/v1/person/{id}/new-feature", method = RequestMethod.POST)
+    public ResponseEntity<Person> newFeature(@PathVariable("id") Long id) {
+        Person person = personService.findOne(id);
+        return (person == null ? ResponseEntity.status(HttpStatus.NOT_FOUND) : ResponseEntity.ok()).body(person);
+    }
+
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_WRITE_PERMISSION + "')")
     @RequestMapping(path = "/v1/person", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Person> add(
