@@ -44,13 +44,7 @@ public class PersonEndpoint extends BaseEndpoint {
 
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_READ_PERMISSION + "')")
     @RequestMapping(path = "/v1/persons", method = RequestMethod.GET)
-    @Operation(
-            summary = "Get all persons",
-            description = "Returns first N persons specified by the size parameter with page offset specified by page parameter.")
-    public Page<Person> getAll(
-            @Parameter(description = "The size of the page to be returned") @RequestParam(required = false) Integer size,
-            @Parameter(description = "Zero-based page index") @RequestParam(required = false) Integer page) {
-
+    public Page<Person> getAll(@RequestParam(required = false) Integer size, @RequestParam(required = false) Integer page) {
         if (size == null) {
             size = DEFAULT_PAGE_SIZE;
         }
@@ -59,27 +53,18 @@ public class PersonEndpoint extends BaseEndpoint {
         }
 
         Pageable pageable = PageRequest.of(page, size);
-
         return personService.findAll(pageable);
     }
 
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_READ_PERMISSION + "') or @authorizationConfiguration.isDisabled()")
     @RequestMapping(path = "/v1/person/{id}", method = RequestMethod.GET)
-    @Operation(
-            summary = "Get person by id",
-            description = "Returns person for id specified.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "404", description = "Person not found")})
-    public ResponseEntity<Person> get(@Parameter(description = "Person id") @PathVariable("id") Long id) {
-
+    public ResponseEntity<Person> get(@PathVariable("id") Long id) {
         Person person = personService.findOne(id);
         return (person == null ? ResponseEntity.status(HttpStatus.NOT_FOUND) : ResponseEntity.ok()).body(person);
     }
 
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_WRITE_PERMISSION + "')")
     @RequestMapping(path = "/v1/person", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    @Operation(
-            summary = "Create new or update existing person",
-            description = "Creates new or updates existing person. Returns created/updated person with id.")
     public ResponseEntity<Person> add(
             @Valid @RequestBody Person person,
             @Valid @Size(max = 40, min = 8, message = "user id size 8-40") @RequestHeader(name = HEADER_USER_ID) String userId,
