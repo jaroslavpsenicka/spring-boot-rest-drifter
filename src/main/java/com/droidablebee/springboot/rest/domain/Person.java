@@ -38,7 +38,7 @@ public class Person {
     private Date dateOfBirth;
 
     @Column(name = "gender")
-    private Gender gender;
+    private String gender;
 
     @Valid
     @OneToMany(cascade = CascadeType.ALL)
@@ -117,10 +117,6 @@ public class Person {
             setAddresses(new HashSet<>());
         }
         getAddresses().add(address);
-    }
-
-    public static enum Gender {
-        M, F;
     }
 
 }
