@@ -63,6 +63,7 @@ public class PersonEndpoint extends BaseEndpoint {
         return (person == null ? ResponseEntity.status(HttpStatus.NOT_FOUND) : ResponseEntity.ok()).body(person);
     }
 
+    // irrelevant change to trigger the processing
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_WRITE_PERMISSION + "')")
     @RequestMapping(path = "/v1/person", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Person> add(
