@@ -39,6 +39,8 @@ public class PersonEndpoint extends BaseEndpoint {
     static final String PERSON_READ_PERMISSION = "person-read";
     static final String PERSON_WRITE_PERMISSION = "person-write";
 
+    static final LocalDate MIN_DOB = LocalDate.of(2000, 1, 1);
+
     @Autowired
     private PersonService personService;
 
@@ -70,6 +72,10 @@ public class PersonEndpoint extends BaseEndpoint {
             @Valid @Size(max = 40, min = 8, message = "user id size 8-40") @RequestHeader(name = HEADER_USER_ID) String userId,
             @Valid @Size(max = 40, min = 2, message = "token size 2-40") @RequestHeader(name = HEADER_TOKEN, required = false) String token) {
 
+        if (person.getDateOfBirth() != null && person.getDateOfBirth().isBefore(MIN_DOB)) {
+            throw new IllegalArgumentException("dateOfBirth must be on or after January 1, 2000");
+        }
+        
         person = personService.save(person);
         return ResponseEntity.ok().body(person);
     }
