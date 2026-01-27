@@ -64,7 +64,7 @@ public class PersonEndpoint extends BaseEndpoint {
     }
 
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_WRITE_PERMISSION + "')")
-    @RequestMapping(path = "/v1/person", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @RequestMapping(path = "/v1/persons", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Person> add(
             @Valid @RequestBody Person person,
             @Valid @Size(max = 40, min = 8, message = "user id size 8-40") @RequestHeader(name = HEADER_USER_ID) String userId,

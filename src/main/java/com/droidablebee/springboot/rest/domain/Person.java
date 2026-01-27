@@ -34,6 +34,7 @@ public class Person {
     @Column(name = "middle_name")
     private String middleName;
 
+    @NotNull
     @Column(name = "dob")
     private Date dateOfBirth;
 
