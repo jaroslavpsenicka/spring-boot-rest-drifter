@@ -56,6 +56,7 @@ public class PersonEndpoint extends BaseEndpoint {
         return personService.findAll(pageable);
     }
 
+    // non-relevant change, to trigger the processing
     @PreAuthorize("hasAuthority('SCOPE_" + PERSON_READ_PERMISSION + "') or @authorizationConfiguration.isDisabled()")
     @RequestMapping(path = "/v1/person/{id}", method = RequestMethod.GET)
     public ResponseEntity<Person> get(@PathVariable("id") Long id) {

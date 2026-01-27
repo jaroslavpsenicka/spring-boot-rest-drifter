@@ -87,8 +87,8 @@ paths:
     get:
       tags:
         - person-endpoint
-      summary: Get person by id
-      description: Returns person for id specified.
+      summary: Verify the person
+      description: Verifies the given person and sends an email to his manager, if found guilty.
       operationId: get
       parameters:
         - name: id
