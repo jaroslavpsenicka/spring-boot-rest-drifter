@@ -149,6 +149,7 @@ components:
         dateOfBirth:
           type: string
           format: date-time
+          description: Must be an ISO-8601 timestamp on or after January 1st, 2000.        
         gender:
           type: string
           enum:
